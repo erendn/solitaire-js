@@ -28,7 +28,7 @@ function loadAssets() {
     SPRITES['frame-empty'] = loadSprite('frame-empty');
     for (suit in SUITS) {
         for (var i = 1; i <= 13; i++) {
-            SPRITES[`${suit}-${i}`] = loadSprite(`${suit}-${i}`);
+            SPRITES[`${suit}-${i}`] = loadSprite(`${suit.toLowerCase()}-${i}`);
         }
     }
 
