@@ -160,7 +160,7 @@ class Klondike extends GameWorld {
         } else if (Mouse.carried.length > 0) {
             for (var i = 0; i < 7; i++) {
                 if (this.piles[i].size() > 0
-                    && Utils.pointInRectangle(Mouse.position, this.piles[i].peek().position, DIMENSIONS.CARD.width, DIMENSIONS.CARD.height)
+                    && Utils.pointInRectangle(Vector2.add(Vector2.diff(Mouse.position, Mouse.offset), new Vector2(DIMENSIONS.CARD.width / 2, DIMENSIONS.CARD.height / 2)), this.piles[i].peek().position, DIMENSIONS.CARD.width, DIMENSIONS.CARD.height)
                     && Mouse.carried[0].rank + 1 == this.piles[i].peek().rank
                     && Mouse.carried[0].getColor() != this.piles[i].peek().getColor()) {
                     /*
@@ -184,7 +184,7 @@ class Klondike extends GameWorld {
                     this.gameStack.push(move);
                     return;
                 } else if (this.piles[i].size() == 0
-                    && Utils.pointInRectangle(Mouse.position, this.piles[i].position, DIMENSIONS.CARD.width, DIMENSIONS.CARD.height)
+                    && Utils.pointInRectangle(Vector2.add(Vector2.diff(Mouse.position, Mouse.offset), new Vector2(DIMENSIONS.CARD.width / 2, DIMENSIONS.CARD.height / 2)), this.piles[i].position, DIMENSIONS.CARD.width, DIMENSIONS.CARD.height)
                     && Mouse.carried[0].rank == 13) {
                     /*
                     Mouse.carried.forEach(element => {
@@ -211,7 +211,7 @@ class Klondike extends GameWorld {
             if (Mouse.carried.length == 1) {
                 for (var i = 0; i < 4; i++) {
                     if (this.foundations[i].size() > 0
-                        && Utils.pointInRectangle(Mouse.position, this.foundations[i].position, DIMENSIONS.CARD.width, DIMENSIONS.CARD.height)
+                        && Utils.pointInRectangle(Vector2.add(Vector2.diff(Mouse.position, Mouse.offset), new Vector2(DIMENSIONS.CARD.width / 2, DIMENSIONS.CARD.height / 2)), this.foundations[i].position, DIMENSIONS.CARD.width, DIMENSIONS.CARD.height)
                         && Mouse.carried[0].rank == this.foundations[i].peek().rank + 1
                         && Mouse.carried[0].suit == this.foundations[i].peek().suit) {
                         /*
@@ -233,7 +233,7 @@ class Klondike extends GameWorld {
                         this.gameStack.push(move);
                         return;
                     } else if (this.foundations[i].size() == 0
-                        && Utils.pointInRectangle(Mouse.position, this.foundations[i].position, DIMENSIONS.CARD.width, DIMENSIONS.CARD.height)
+                        && Utils.pointInRectangle(Vector2.add(Vector2.diff(Mouse.position, Mouse.offset), new Vector2(DIMENSIONS.CARD.width / 2, DIMENSIONS.CARD.height / 2)), this.foundations[i].position, DIMENSIONS.CARD.width, DIMENSIONS.CARD.height)
                         && Mouse.carried[0].rank == 1) {
                         /*
                         var stack = Mouse.carried[0].release();
@@ -268,7 +268,8 @@ class Klondike extends GameWorld {
             this.foundations[i].position = new Vector2((i + 1) * DIMENSIONS.STACK_OFFSET.width + DIMENSIONS.CARD.width * i, DIMENSIONS.TOPBAR.height + DIMENSIONS.STACK_OFFSET.height);
             Canvas.drawImage(SPRITES['frame-empty'], this.foundations[i].position, DIMENSIONS.CARD.width, DIMENSIONS.CARD.height);
             for (var j = 0; j < this.foundations[i].size(); j++) {
-                Canvas.drawImage(SPRITES[this.foundations[i].get(j).getSpriteName()], this.foundations[i].position, DIMENSIONS.CARD.width, DIMENSIONS.CARD.height);
+                if (!this.foundations[i].get(j).moving)
+                    Canvas.drawImage(SPRITES[this.foundations[i].get(j).getSpriteName()], this.foundations[i].position, DIMENSIONS.CARD.width, DIMENSIONS.CARD.height);
             }
         }
         //RENDERING DECK AND WASTE
@@ -299,7 +300,7 @@ class Klondike extends GameWorld {
         var position = new Vector2(Mouse.position.x - Mouse.offset.x, Mouse.position.y - Mouse.offset.y);
         for (var i = 0; i < Mouse.carried.length; i++) {
             Canvas.drawImage(SPRITES[Mouse.carried[i].getSpriteName()], position, DIMENSIONS.CARD.width, DIMENSIONS.CARD.height);
-            position.y += i == 0 ? 50 : 20;
+            position.y += i == 0 ? 50 : 10;
         }
         //RENDERING TOPBAR
         Canvas.drawRect(origin, Canvas.width, DIMENSIONS.TOPBAR.height, COLORS.BACKGROUND.DARKER_GREEN, 0.7);
