@@ -4,23 +4,22 @@
   <title>Solitaire</title>
 </head>
 
-<body bgcolor="#04590e">
+<body onload="Solitaire.start()" onresize="Dimension.calculateAll()">
   <link rel="stylesheet" href="style.css">
-  <canvas id="screen" </canvas>
-    <script src="Vector2.js"></script>
-    <script src="input/ButtonState.js"></script>
-    <script src="input/Mouse.js"></script>
-    <script src="Canvas.js"></script>
-    <script src="Assets.js"></script>
-    <script src="Game.js"></script>
-    <script src="GameWorld.js"></script>
-    <script src="Card.js"></script>
-    <script src="Stack.js"></script>
-    <script src="Ground.js"></script>
-
-    <script>
-      loadAssets(CardGame.start);
-    </script>
+  <canvas id="screen"></canvas>
+  <script src="src/main/data-structures/Vector2.js"></script>
+  <script src="src/main/Utils.js"></script>
+  <script src="src/main/Assets.js"></script>
+  <script src="src/main/EventListener.js"></script>
+  <script src="src/main/Canvas.js"></script>
+  <script src="src/main/data-structures/GameNode.js"></script>
+  <script src="src/main/data-structures/GameStack.js"></script>
+  <script src="src/main/data-structures/Dimension.js"></script>
+  <script src="src/main/Game.js"></script>
+  <script src="src/main/GameWorld.js"></script>
+  <script src="src/main/Klondike.js"></script>
+  <script src="src/main/Card.js"></script>
+  <script src="src/main/data-structures/Stack.js"></script>
 </body>
 
 </html>
