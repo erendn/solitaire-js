@@ -9,20 +9,31 @@ GameStack.prototype.push = function (node) {
 }
 
 GameStack.prototype.undo = function () {
-    var node = this.done.pop();
-    this.undone.push(node);
-
+    if (this.done.length > 0) {
+        var node = this.done.pop();
+        this.undone.push(node);
+        for (var i = node.cardsMoved.length - 1; i >= 0; i--) {
+            var card = node.cardsMoved[i];
+            card.release();
+            node.movedFrom.push(card);
+            card.moving = false;
+        }
+        node.cardsRevealed.forEach(element => element.revealed = false);
+        node.cardsUnrevealed.forEach(element => element.revealed = true);
+    }
 }
 
 GameStack.prototype.redo = function () {
-    var node = this.undone.pop();
-    this.done.push(node);
-    while (node.cardsMoved.length > 0) {
-        var card = node.cardsMoved.pop();
-        card.release();
-        node.movedTo.push(card);
-        card.moving = false;
+    if (this.undone.length > 0) {
+        var node = this.undone.pop();
+        this.done.push(node);
+        for (var i = node.cardsMoved.length - 1; i >= 0; i--) {
+            var card = node.cardsMoved[i];
+            card.release();
+            node.movedTo.push(card);
+            card.moving = false;
+        }
+        node.cardsRevealed.forEach(element => element.revealed = true);
+        node.cardsUnrevealed.forEach(element => element.revealed = false);
     }
-    node.cardsRevealed.forEach(element => element.revealed = true);
-    node.cardsUnrevealed.forEach(element => element.revealed = false);
 }

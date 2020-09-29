@@ -99,23 +99,11 @@ class Klondike extends GameWorld {
             if (Utils.pointInRectangle(Mouse.position, this.deck.position, DIMENSIONS.CARD.width, DIMENSIONS.CARD.height)) {
                 var move = new GameNode();
                 if (this.deck.size() > 0) {
-                    /*
-                    var card = this.deck.pop();
-                    card.revealed = true;
-                    this.waste.push(card);
-                    */
                     move.cardsMoved = [this.deck.peek()];
                     move.movedFrom = this.deck;
                     move.movedTo = this.waste;
                     move.cardsRevealed = [this.deck.peek()];
                 } else {
-                    /*
-                    while (this.waste.size() > 0) {
-                        var card = this.waste.pop();
-                        card.revealed = false;
-                        this.deck.push(card);
-                    }
-                    */
                     move.cardsMoved = [];
                     move.movedFrom = this.waste;
                     move.movedTo = this.deck;
@@ -127,10 +115,10 @@ class Klondike extends GameWorld {
                 }
                 this.gameStack.push(move);
             }
-        } else if (Mouse.ctrlClicked) {
+        } else if (Mouse.pressed.KEY_CTRL && Mouse.pressed.MOUSE_0) {
             Mouse.ctrlClicked = false;
-
-        } else if (Mouse.pressed) {
+            
+        } else if (Mouse.pressed.MOUSE_0) {
             if (Mouse.carried.length == 0) {
                 for (var i = 0; i < 7; i++) {
                     for (var j = this.piles[i].size() - 1; j >= 0; j--) {
@@ -163,17 +151,6 @@ class Klondike extends GameWorld {
                     && Utils.pointInRectangle(Vector2.add(Vector2.diff(Mouse.position, Mouse.offset), new Vector2(DIMENSIONS.CARD.width / 2, DIMENSIONS.CARD.height / 2)), this.piles[i].peek().position, DIMENSIONS.CARD.width, DIMENSIONS.CARD.height)
                     && Mouse.carried[0].rank + 1 == this.piles[i].peek().rank
                     && Mouse.carried[0].getColor() != this.piles[i].peek().getColor()) {
-                    /*
-                    Mouse.carried.forEach(element => {
-                        var stack = element.release();
-                        if (stack.size() > 0)
-                            stack.peek().revealed = true;
-                        element.moving = false;
-                        this.piles[i].push(element);
-                    });
-                    Mouse.carried = [];
-                    return;
-                    */
                     var move = new GameNode();
                     move.cardsMoved = Mouse.carried.reverse();
                     move.movedFrom = move.cardsMoved[0].stack;
@@ -186,17 +163,6 @@ class Klondike extends GameWorld {
                 } else if (this.piles[i].size() == 0
                     && Utils.pointInRectangle(Vector2.add(Vector2.diff(Mouse.position, Mouse.offset), new Vector2(DIMENSIONS.CARD.width / 2, DIMENSIONS.CARD.height / 2)), this.piles[i].position, DIMENSIONS.CARD.width, DIMENSIONS.CARD.height)
                     && Mouse.carried[0].rank == 13) {
-                    /*
-                    Mouse.carried.forEach(element => {
-                        var stack = element.release();
-                        if (stack.size() > 0)
-                            stack.peek().revealed = true;
-                        element.moving = false;
-                        this.piles[i].push(element);
-                    });
-                    Mouse.carried = [];
-                    return;
-                    */
                     var move = new GameNode();
                     move.cardsMoved = Mouse.carried.reverse();
                     move.movedFrom = move.cardsMoved[0].stack;
@@ -214,15 +180,6 @@ class Klondike extends GameWorld {
                         && Utils.pointInRectangle(Vector2.add(Vector2.diff(Mouse.position, Mouse.offset), new Vector2(DIMENSIONS.CARD.width / 2, DIMENSIONS.CARD.height / 2)), this.foundations[i].position, DIMENSIONS.CARD.width, DIMENSIONS.CARD.height)
                         && Mouse.carried[0].rank == this.foundations[i].peek().rank + 1
                         && Mouse.carried[0].suit == this.foundations[i].peek().suit) {
-                        /*
-                        var stack = Mouse.carried[0].release();
-                        if (stack.size() > 0)
-                            stack.peek().revealed = true;
-                        Mouse.carried[0].moving = false;
-                        this.foundations[i].push(Mouse.carried[0]);
-                        Mouse.carried = [];
-                        return;
-                        */
                         var move = new GameNode();
                         move.cardsMoved = Mouse.carried;
                         move.movedFrom = Mouse.carried[0].stack;
@@ -235,15 +192,6 @@ class Klondike extends GameWorld {
                     } else if (this.foundations[i].size() == 0
                         && Utils.pointInRectangle(Vector2.add(Vector2.diff(Mouse.position, Mouse.offset), new Vector2(DIMENSIONS.CARD.width / 2, DIMENSIONS.CARD.height / 2)), this.foundations[i].position, DIMENSIONS.CARD.width, DIMENSIONS.CARD.height)
                         && Mouse.carried[0].rank == 1) {
-                        /*
-                        var stack = Mouse.carried[0].release();
-                        if (stack.size() > 0)
-                            stack.peek().revealed = true;
-                        Mouse.carried[0].moving = false;
-                        this.foundations[i].push(Mouse.carried[0]);
-                        Mouse.carried = [];
-                        return;
-                        */
                         var move = new GameNode();
                         move.cardsMoved = Mouse.carried;
                         move.movedFrom = Mouse.carried[0].stack;
@@ -258,7 +206,14 @@ class Klondike extends GameWorld {
             }
             Mouse.carried.forEach(element => element.moving = false);
             Mouse.carried = [];
+        } else if (Mouse.pressed.KEY_CTRL && Mouse.pressed.KEY_Z) {
+            Mouse.pressed.KEY_Z = false;
+            this.gameStack.undo();
+        } else if (Mouse.pressed.KEY_CTRL && Mouse.pressed.KEY_Y) {
+            Mouse.pressed.KEY_Y = false;
+            this.gameStack.redo();
         }
+
     }
 
     render() {
