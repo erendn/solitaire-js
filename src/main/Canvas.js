@@ -45,7 +45,7 @@ Canvas2D.prototype.drawRect = function (topLeft, width, height, color, alpha = 1
 }
 
 Canvas2D.prototype.drawText = function (text, anchor, pixelSize, color, verticalAlign = 'center', horizontalAlign = 'middle') {
-    this.canvasContext.font = `${pixelSize}px WindowsCommandPrompt`;
+    this.canvasContext.font = `${pixelSize}px PerfectDOS`;
     this.canvasContext.fillStyle = color;
     this.canvasContext.textAlign = verticalAlign;
     this.canvasContext.textBaseline = horizontalAlign;

@@ -2,6 +2,7 @@
 ## Features
 * Undo and redo
 * Fast-play
+* Solution guaranteed generation algorithm
 * Games:
     * Klondike
 
