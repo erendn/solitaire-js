@@ -96,29 +96,77 @@ class Klondike extends GameWorld {
     update() {
         if (Mouse.clicked) {
             Mouse.clicked = false;
-            if (Utils.pointInRectangle(Mouse.position, this.deck.position, DIMENSIONS.CARD.width, DIMENSIONS.CARD.height)) {
-                var move = new GameNode();
-                if (this.deck.size() > 0) {
-                    move.cardsMoved = [this.deck.peek()];
-                    move.movedFrom = this.deck;
-                    move.movedTo = this.waste;
-                    move.cardsRevealed = [this.deck.peek()];
-                } else {
-                    move.cardsMoved = [];
-                    move.movedFrom = this.waste;
-                    move.movedTo = this.deck;
-                    move.cardsUnrevealed = [];
-                    for (var i = 0; i < this.waste.size(); i++) {
-                        move.cardsMoved.push(this.waste.get(i));
-                        move.cardsUnrevealed.push(this.waste.get(i));
+            if (Mouse.pressed.KEY_CTRL) {
+                for (var i = 0; i < 7; i++) {
+                    for (var j = this.piles[i].size() - 1; j >= 0; j--) {
+                        if (Utils.pointInRectangle(Mouse.position, this.piles[i].get(j).position, DIMENSIONS.CARD.width, DIMENSIONS.CARD.height) && this.piles[i].get(j).revealed) {
+                            var chosen = this.piles[i].list.slice(j);
+                            var available = this.availableMoves(chosen[0]);
+                            if (available.length > 0) {
+                                var move = new GameNode();
+                                move.cardsMoved = chosen.reverse();
+                                move.movedFrom = this.piles[i];
+                                move.movedTo = available[0];
+                                if (move.movedFrom.size() > move.cardsMoved.length && !move.movedFrom.get(move.movedFrom.size() - move.cardsMoved.length - 1).revealed)
+                                    move.cardsRevealed = [move.movedFrom.get(move.movedFrom.size() - move.cardsMoved.length - 1)];
+                                this.gameStack.push(move);
+                            }
+                            return;
+                        }
                     }
                 }
-                this.gameStack.push(move);
+                for (var i = 0; i < 4; i++) {
+                    if (this.foundations[i].size() > 0 && Utils.pointInRectangle(Mouse.position, this.foundations[i].position, DIMENSIONS.CARD.width, DIMENSIONS.CARD.height)) {
+                        var chosen = this.foundations[i].peek();
+                        var available = this.availableMoves(chosen);
+                        if (available.length > 0) {
+                            var move = new GameNode();
+                            move.cardsMoved = [chosen];
+                            move.movedFrom = this.foundations[i];
+                            move.movedTo = available[0];
+                            if (move.movedFrom.size() > move.cardsMoved.length && !move.movedFrom.get(move.movedFrom.size() - move.cardsMoved.length - 1).revealed)
+                                move.cardsRevealed = [move.movedFrom.get(move.movedFrom.size() - move.cardsMoved.length - 1)];
+                            this.gameStack.push(move);
+                        }
+                        return;
+                    }
+                }
+                if (this.waste.size() > 0 && Utils.pointInRectangle(Mouse.position, this.waste.position, DIMENSIONS.CARD.width, DIMENSIONS.CARD.height)) {
+                    var chosen = this.waste.peek();
+                    var available = this.availableMoves(chosen);
+                    if (available.length > 0) {
+                        var move = new GameNode();
+                        move.cardsMoved = [chosen];
+                        move.movedFrom = this.waste;
+                        move.movedTo = available[0];
+                        if (move.movedFrom.size() > move.cardsMoved.length && !move.movedFrom.get(move.movedFrom.size() - move.cardsMoved.length - 1).revealed)
+                            move.cardsRevealed = [move.movedFrom.get(move.movedFrom.size() - move.cardsMoved.length - 1)];
+                        this.gameStack.push(move);
+                    }
+                    return;
+                }
+            } else {
+                if (Utils.pointInRectangle(Mouse.position, this.deck.position, DIMENSIONS.CARD.width, DIMENSIONS.CARD.height)) {
+                    var move = new GameNode();
+                    if (this.deck.size() > 0) {
+                        move.cardsMoved = [this.deck.peek()];
+                        move.movedFrom = this.deck;
+                        move.movedTo = this.waste;
+                        move.cardsRevealed = [this.deck.peek()];
+                    } else {
+                        move.cardsMoved = [];
+                        move.movedFrom = this.waste;
+                        move.movedTo = this.deck;
+                        move.cardsUnrevealed = [];
+                        for (var i = 0; i < this.waste.size(); i++) {
+                            move.cardsMoved.push(this.waste.get(i));
+                            move.cardsUnrevealed.push(this.waste.get(i));
+                        }
+                    }
+                    this.gameStack.push(move);
+                }
             }
-        } else if (Mouse.pressed.KEY_CTRL && Mouse.pressed.MOUSE_0) {
-            Mouse.ctrlClicked = false;
-            
-        } else if (Mouse.pressed.MOUSE_0) {
+        } else if (Mouse.pressed.MOUSE_0 && !Mouse.pressed.KEY_CTRL) {
             if (Mouse.carried.length == 0) {
                 for (var i = 0; i < 7; i++) {
                     for (var j = this.piles[i].size() - 1; j >= 0; j--) {
@@ -247,8 +295,8 @@ class Klondike extends GameWorld {
                 card.position = { ...position };
                 if (!card.moving) {
                     Canvas.drawImage(SPRITES[card.getSpriteName()], card.position, DIMENSIONS.CARD.width, DIMENSIONS.CARD.height);
-                    position.y += card.revealed ? 200 / (4 * (this.piles[i].size() / 14 + 1)) : DIMENSIONS.CARD_OFFSET.width;
                 }
+                position.y += card.revealed ? 200 / (4 * (this.piles[i].size() / 14 + 1)) : DIMENSIONS.CARD_OFFSET.width;
             }
         }
         //RENDERING CARRIED CARDS
@@ -259,5 +307,24 @@ class Klondike extends GameWorld {
         }
         //RENDERING TOPBAR
         Canvas.drawRect(origin, Canvas.width, DIMENSIONS.TOPBAR.height, COLORS.BACKGROUND.DARKER_GREEN, 0.7);
+    }
+
+    availableMoves(card) {
+        var stacks = [];
+        for (var i = 0; i < 4; i++) {
+            if (this.foundations[i].size() > 0 && this.foundations[i].peek().suit == card.suit && this.foundations[i].peek().rank + 1 == card.rank) {
+                stacks.push(this.foundations[i]);
+            } else if (this.foundations[i].size() == 0 && card.rank == 1) {
+                stacks.push(this.foundations[i]);
+            }
+        }
+        for (var i = 0; i < 7; i++) {
+            if (this.piles[i].size() > 0 && this.piles[i].peek().getColor() != card.getColor() && this.piles[i].peek().rank == card.rank + 1) {
+                stacks.push(this.piles[i]);
+            } else if (this.piles[i].size() == 0 && card.rank == 13) {
+                stacks.push(this.piles[i]);
+            }
+        }
+        return stacks;
     }
 }
