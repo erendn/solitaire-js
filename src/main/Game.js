@@ -3,6 +3,7 @@ function Game() {
 }
 
 const SCENES = {
+    LOADING: 'loading',
     MENU: 'menu-scene',
     SETTINGS: 'settings',
     IN_GAME: 'in-game'
@@ -46,7 +47,7 @@ Game.prototype.mainLoop = function () {
     if (milliseconds >= 1000 / FPS) {
         time = currentTime;
         if (loading < maxLoading) {
-
+            Solitaire.render(SCENES.LOADING);
         } else {
             if (Solitaire.scene == SCENES.IN_GAME) {
                 Solitaire.gameWorld.play();
@@ -57,6 +58,16 @@ Game.prototype.mainLoop = function () {
     }
 
     requestAnimationFrame(Solitaire.mainLoop);
+}
+
+Game.prototype.render = function (scene) {
+    if (scene == SCENES.LOADING) {
+        Canvas.fill(COLORS.BACKGROUND.DARK_GREEN);
+        Canvas.drawText("Loading", new Vector2(Canvas.width / 2, Canvas.height / 2), 200, COLORS.BACKGROUND.LIGHT_GRAY, TEXT_ALIGN.VERTICAL.CENTER, TEXT_ALIGN.HORIZONTAL.BOTTOM);
+        var offset = Canvas.width / 300;
+        Canvas.drawRect(new Vector2(Canvas.width / 3, Canvas.height * 0.55), Canvas.width / 3, Canvas.height / 15, COLORS.BACKGROUND.BLACK);
+        Canvas.drawRect(new Vector2(Canvas.width / 3, Canvas.height * 0.55), (loading / maxLoading) * Canvas.width / 3, Canvas.height / 15, COLORS.BACKGROUND.LIGHT_GREEN);
+    }
 }
 
 let Solitaire = new Game();

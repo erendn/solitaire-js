@@ -7,6 +7,7 @@
 
 ## Features To Be Added
 * Hint
+* Auto-solve
 * Interactive topbar
 * Main menu
 * Settings menu
@@ -17,11 +18,12 @@
     * Pyramid
 
 ## What I Learned
+* Data structures
 * Canvas in HTML
 * JavaScript
 
 ## [Play](https://biarmic.github.io/solitaire-js/)
 
-## Screenshots
+## Screenshots (Old Version)
 ![screenshot](readme-images/screenshot-1.png "Old version")
 ![screenshot](readme-images/screenshot-2.png "Old version")
