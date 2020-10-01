@@ -94,6 +94,8 @@ class Klondike extends GameWorld {
     }
 
     update() {
+        if(this.deck.position == undefined)
+            return;
         if (Mouse.clicked) {
             Mouse.clicked = false;
             if (Mouse.pressed.KEY_CTRL) {

@@ -45,11 +45,16 @@ Canvas2D.prototype.drawRect = function (topLeft, width, height, color, alpha = 1
 }
 
 Canvas2D.prototype.drawText = function (text, anchor, pixelSize, color, verticalAlign = 'center', horizontalAlign = 'middle') {
-    this.canvasContext.font = `${pixelSize}px PerfectDOS`;
+    this.canvasContext.font = `${pixelSize}px Coolvetica`;
     this.canvasContext.fillStyle = color;
     this.canvasContext.textAlign = verticalAlign;
     this.canvasContext.textBaseline = horizontalAlign;
     this.canvasContext.fillText(text, anchor.x, anchor.y);
+}
+
+Canvas2D.prototype.textWidth = function (text, pixelSize) {
+    this.canvasContext.font = `${pixelSize}px Coolvetica`;
+    return this.canvasContext.measureText(text).width;
 }
 
 let Canvas = new Canvas2D();

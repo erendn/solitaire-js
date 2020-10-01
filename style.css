@@ -5,6 +5,6 @@ html, body {
 }
 
 @font-face {
-  font-family: 'PerfectDOS';
-  src: url('./src/assets/fonts/pdos.ttf') format('truetype');
+  font-family: 'Coolvetica';
+  src: url('./src/assets/fonts/Coolvetica.ttf') format('truetype');
 }

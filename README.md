@@ -2,15 +2,14 @@
 ## Features
 * Undo and redo
 * Fast-play
-* Solution guaranteed generation algorithm
+* Solution guaranteed game generation algorithm
 * Games:
     * Klondike
 
-## Features To Be Added
+## To Do List
 * Hint
 * Auto-solve
 * Interactive topbar
-* Main menu
 * Settings menu
 * How To Play menu
 * Games:
