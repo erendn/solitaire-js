@@ -61,3 +61,7 @@ Stack.prototype.forEach = function (func) {
 Stack.prototype.some = function (func) {
     return this.list.some(func);
 }
+
+Stack.prototype.copy = function () {
+    return this.list.slice();
+}
