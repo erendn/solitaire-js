@@ -2,13 +2,13 @@
 ## Features
 * Undo and redo
 * Fast-play
+* Auto-solve
 * Solution guaranteed game generation algorithm
 * Games:
     * Klondike
 
 ## To Do List
 * Hint
-* Auto-solve
 * Interactive topbar
 * Settings menu
 * How To Play menu
@@ -24,6 +24,6 @@
 
 ## [Play](https://biarmic.github.io/solitaire-js/)
 
-## Screenshots (Old Version)
-![screenshot](readme-images/screenshot-1.png "Old version")
-![screenshot](readme-images/screenshot-2.png "Old version")
+## Screenshots
+![screenshot](readme-images/screenshot-1.png "Menu")
+![screenshot](readme-images/screenshot-2.png "Klondike")

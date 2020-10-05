@@ -86,7 +86,6 @@ Game.prototype.render = function (scene) {
                 clickedButton = Solitaire.menuButtons[i].toLowerCase();
             position.x += width;
         }
-        console.log(clickedButton);
         if (clickedButton != null) {
             Solitaire.newGame(clickedButton);
             Solitaire.scene = SCENES.IN_GAME;

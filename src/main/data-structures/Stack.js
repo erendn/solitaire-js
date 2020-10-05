@@ -57,3 +57,7 @@ Stack.prototype.size = function () {
 Stack.prototype.forEach = function (func) {
     this.list.forEach(func);
 }
+
+Stack.prototype.some = function (func) {
+    return this.list.some(func);
+}
