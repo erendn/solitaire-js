@@ -65,3 +65,7 @@ Stack.prototype.some = function (func) {
 Stack.prototype.copy = function () {
     return this.list.slice();
 }
+
+Stack.prototype.slice = function (index = 0) {
+    return this.list.slice(index);
+}

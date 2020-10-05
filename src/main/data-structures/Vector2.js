@@ -10,3 +10,7 @@ Vector2.diff = function (terminal, destination) {
 Vector2.add = function (vec1, vec2) {
     return new Vector2(vec1.x + vec2.x, vec1.y + vec2.y);
 }
+
+Vector2.moveTowards = function (terminal, destination, step) {
+    return new Vector2(terminal.x + step * (destination.x - terminal.x), terminal.y + step * (destination.y - terminal.y));
+}

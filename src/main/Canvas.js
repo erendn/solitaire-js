@@ -33,8 +33,10 @@ Canvas2D.prototype.fill = function (color) {
     this.canvasContext.fillRect(0, 0, this.width, this.height);
 }
 
-Canvas2D.prototype.drawImage = function (image, topLeft, width, height) {
+Canvas2D.prototype.drawImage = function (image, topLeft, width, height, alpha = 1) {
+    this.canvasContext.globalAlpha = alpha;
     this.canvasContext.drawImage(image, topLeft.x, topLeft.y, width, height);
+    this.canvasContext.globalAlpha = 1;
 }
 
 Canvas2D.prototype.drawRect = function (topLeft, width, height, color, alpha = 1) {

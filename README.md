@@ -8,7 +8,7 @@
     * Klondike
 
 ## To Do List
-* Hint
+* End screen
 * Interactive topbar
 * Settings menu
 * How To Play menu
