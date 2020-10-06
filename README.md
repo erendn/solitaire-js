@@ -8,10 +8,7 @@
     * Klondike
 
 ## To Do List
-* End screen
-* Interactive topbar
-* Settings menu
-* How To Play menu
+* Sound effects
 * Games:
     * Freecell
     * Spider

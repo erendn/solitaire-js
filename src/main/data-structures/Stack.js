@@ -1,6 +1,8 @@
-function Stack(position) {
+function Stack(stacked = false, groundMark = null) {
     this.list = [];
-    this.position = position;
+    this.position = undefined;
+    this.stacked = stacked;
+    this.groundMark = groundMark;
 }
 
 Stack.prototype.openDeck = function () {

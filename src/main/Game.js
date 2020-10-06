@@ -36,7 +36,11 @@ Game.prototype.init = function () {
 Game.prototype.newGame = function (type) {
     if (type == GAMES.KLONDIKE) {
         Solitaire.gameWorld = new Klondike();
+    } else if (type == GAMES.SPIDER) {
+
     } else if (type == GAMES.FREECELL) {
+
+    } else if (type == GAMES.PYRAMID) {
 
     }
 }
