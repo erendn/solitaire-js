@@ -37,12 +37,13 @@ Game.prototype.newGame = function (type) {
     if (type == GAMES.KLONDIKE) {
         Solitaire.gameWorld = new Klondike();
     } else if (type == GAMES.SPIDER) {
-
+        Solitaire.gameWorld = new Spider();
     } else if (type == GAMES.FREECELL) {
 
     } else if (type == GAMES.PYRAMID) {
 
     }
+    Dimension.calculateAll(type);
 }
 
 Game.prototype.mainLoop = function () {

@@ -4,7 +4,9 @@ const origin = new Vector2(0, 0);
 
 /**
  * Returns a randomly shuffled version of the given array. This is a non-destructive function.
- * @param {*} array The array to be shuffled.
+ * @param {Array} array The array to be shuffled.
+ * 
+ * @return {Array}
  */
 Utils.shuffle = function (array) {
     orig = array.slice();
@@ -14,6 +16,15 @@ Utils.shuffle = function (array) {
     return shuf;
 }
 
+/**
+ * Returns whether the given point is in the rectangle.
+ * @param {Vector2} point1 
+ * @param {Vector2} point2 
+ * @param {int} width 
+ * @param {int} height 
+ * 
+ * @return {boolean}
+ */
 Utils.pointInRectangle = function (point1, point2, width, height) {
     return point1.x <= point2.x + width && point1.x >= point2.x && point1.y <= point2.y + height && point1.y >= point2.y;
 }

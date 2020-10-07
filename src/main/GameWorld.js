@@ -1,11 +1,12 @@
 class GameWorld {
 
     constructor() {
-        this.stackOnGround = [];
+        this.stacksOnGround = [];
         this.gameStack = new GameStack();
         this.movesAvailable = [];
         this.showHint = null;
         this.gameOver = false;
+        this.autoPlay = false;
     }
 
     /**
@@ -35,19 +36,19 @@ class GameWorld {
     render() {
         Canvas.fill(COLORS.BACKGROUND[SETTINGS.BACKGROUND_COLOR]);
         // Rendering the stacks that are on the ground.
-        for (var i = 0; i < this.stackOnGround.length; i++) {
-            if (this.stackOnGround[i].groundMark != null) {
-                Canvas.drawImage(SPRITES[this.stackOnGround[i].groundMark], this.stackOnGround[i].position, DIMENSIONS.CARD.width, DIMENSIONS.CARD.height);
+        for (var i = 0; i < this.stacksOnGround.length; i++) {
+            if (this.stacksOnGround[i].groundMark != null) {
+                Canvas.drawImage(SPRITES[this.stacksOnGround[i].groundMark], this.stacksOnGround[i].position, DIMENSIONS.CARD.width, DIMENSIONS.CARD.height);
             }
-            var position = { ...this.stackOnGround[i].position };
-            for (var j = 0; j < this.stackOnGround[i].size(); j++) {
-                var card = this.stackOnGround[i].get(j);
+            var position = { ...this.stacksOnGround[i].position };
+            for (var j = 0; j < this.stacksOnGround[i].size(); j++) {
+                var card = this.stacksOnGround[i].get(j);
                 if (!card.moving) {
                     card.position = { ...position };
                     Canvas.drawImage(SPRITES[card.getSpriteName()], card.position, DIMENSIONS.CARD.width, DIMENSIONS.CARD.height);
                 }
-                if (!this.stackOnGround[i].stacked)
-                    position.y += card.revealed ? 200 / (3.5 * (this.stackOnGround[i].size() / 14 + 1)) : DIMENSIONS.CARD_OFFSET.height;
+                if (!this.stacksOnGround[i].stacked)
+                    position.y += card.revealed ? 200 / (3.5 * (this.stacksOnGround[i].size() / 14 + 1)) : DIMENSIONS.CARD_OFFSET.height;
             }
         }
         // Rendering the cards that are carried by the player.

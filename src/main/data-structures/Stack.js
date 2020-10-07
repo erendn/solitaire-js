@@ -8,7 +8,7 @@ function Stack(stacked = false, groundMark = null) {
 Stack.prototype.openDeck = function () {
     for (suit in SUITS) {
         for (var i = 1; i <= 13; i++) {
-            this.push(new Card(suit, i));
+            this.list.push(new Card(suit, i));
         }
     }
 }
@@ -62,6 +62,10 @@ Stack.prototype.forEach = function (func) {
 
 Stack.prototype.some = function (func) {
     return this.list.some(func);
+}
+
+Stack.prototype.every = function (func) {
+    return this.list.every(func);
 }
 
 Stack.prototype.copy = function () {

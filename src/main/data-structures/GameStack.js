@@ -15,7 +15,10 @@ GameStack.prototype.undo = function () {
         for (var i = node.cardsMoved.length - 1; i >= 0; i--) {
             var card = node.cardsMoved[i];
             card.release();
-            node.movedFrom.push(card);
+            if (Array.isArray(node.movedFrom))
+                node.movedFrom[i].push(card);
+            else
+                node.movedFrom.push(card);
             card.moving = false;
         }
         node.cardsRevealed.forEach(element => element.revealed = false);
@@ -30,7 +33,10 @@ GameStack.prototype.redo = function () {
         for (var i = node.cardsMoved.length - 1; i >= 0; i--) {
             var card = node.cardsMoved[i];
             card.release();
-            node.movedTo.push(card);
+            if (Array.isArray(node.movedTo))
+                node.movedTo[i].push(card);
+            else
+                node.movedTo.push(card);
             card.moving = false;
         }
         node.cardsRevealed.forEach(element => element.revealed = true);

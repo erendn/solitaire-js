@@ -6,18 +6,18 @@ class Klondike extends GameWorld {
         this.waste = new Stack(true);
         this.piles = [];
         for (var i = 0; i < 7; i++) {
-            this.piles.push(new Stack(false));
+            this.piles.push(new Stack());
         }
         this.foundations = [];
         for (var i = 0; i < 4; i++) {
             this.foundations.push(new Stack(true, 'frame-empty'));
         }
-        this.stackOnGround = this.foundations.concat(this.deck, this.waste, this.piles);
+        this.stacksOnGround = this.foundations.concat(this.deck, this.waste, this.piles);
         this.generate();
-        this.autoPlay = false;
     }
 
     generate() {
+        // Creating a solved game
         this.deck.openDeck();
         this.deck.shuffle();
         var solved = [];
@@ -35,36 +35,35 @@ class Klondike extends GameWorld {
                 }
             }
         }
+        // Randomly placing cards to the ground backwards from a solved game
         var availablePiles = Utils.shuffle([...this.piles.keys()]);
-        while (solved[0].size() > 0) {
-            var reduced = solved[0].size() - 1;
-            for (var i = 0; i < 4; i++) {
-                while (solved[i].size() > reduced) {
-                    var random = Math.random();
-                    if (availablePiles.length > 0 && random < 0.5) {
-                        random = availablePiles[Math.floor(random * availablePiles.length)];
-                        this.piles[random].push(solved[i].pop());
-                        if (this.piles[random].size() == random + 1) {
-                            availablePiles = availablePiles.filter(index => index != random);
-                        }
-                    } else {
-                        var card = solved[i].peek();
-                        var placed = false;
-                        for (var j = 0; j < 4; j++) {
-                            if (this.foundations[j].size() == 0) {
-                                this.foundations[j].push(solved[i].pop());
-                                placed = true;
-                                break;
-                            } else if (this.foundations[j].peek().suit == card.suit && this.foundations[j].peek().rank == card.rank + 1) {
-                                this.foundations[j].push(solved[i].pop());
-                                placed = true;
-                                break;
-                            }
-                        }
-                        if (!placed) {
-                            this.deck.push(solved[i].pop());
-                        }
+        while (availablePiles.length > 0 && solved.some(element => element.size() > 0)) {
+            var i = Math.floor(Math.random() * solved.length);
+            if (solved[i].size() == 0)
+                continue;
+            var random = Math.random();
+            if (availablePiles.length > 0 && random < 0.5) {
+                random = availablePiles[Math.floor(random * availablePiles.length)];
+                this.piles[random].push(solved[i].pop());
+                if (this.piles[random].size() == random + 1) {
+                    availablePiles = availablePiles.filter(index => index != random);
+                }
+            } else {
+                var card = solved[i].peek();
+                var found = false;
+                for (var j = 0; j < 4; j++) {
+                    if (this.foundations[j].size() == 0) {
+                        this.foundations[j].push(solved[i].pop());
+                        found = true;
+                        break;
+                    } else if (this.foundations[j].peek().suit == card.suit && this.foundations[j].peek().rank == card.rank + 1) {
+                        this.foundations[j].push(solved[i].pop());
+                        found = true;
+                        break;
                     }
+                }
+                if (!found) {
+                    this.deck.push(solved[i].pop());
                 }
             }
         }
@@ -115,7 +114,7 @@ class Klondike extends GameWorld {
         }
         // Checks if the game is over
         if (this.deck.size() == 0 && this.waste.size() == 0 && !this.piles.some(stack => stack.size() > 0)) {
-            this.gameOver = !this.foundations.some(stack => stack.size() < 13);
+            this.gameOver = true;
         }
         if (Mouse.clicked) {
             Mouse.clicked = false;

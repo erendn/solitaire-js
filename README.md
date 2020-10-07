@@ -6,12 +6,12 @@
 * Solution guaranteed game generation algorithm
 * Games:
     * Klondike
+    * Spider
 
 ## To Do List
 * Sound effects
 * Games:
     * Freecell
-    * Spider
     * Pyramid
 
 ## What I Learned
@@ -24,3 +24,4 @@
 ## Screenshots
 ![screenshot](readme-images/screenshot-1.png "Menu")
 ![screenshot](readme-images/screenshot-2.png "Klondike")
+![screenshot](readme-images/screenshot-3.png "Spider")
