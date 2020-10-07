@@ -214,10 +214,12 @@ class Spider extends GameWorld {
                 for (var j = this.piles[i].size() - 1; j >= 0; j--) {
                     if (this.piles[i].get(j).revealed) {
                         cards = this.piles[i].slice(j);
-                        var found = this.getAvailableMoves(cards[0], cards.length > 1);
-                        if (found.length > 0 && cards[0].rank != 13) {
-                            available = found;
-                            break;
+                        if (this.isValidSet(cards)) {
+                            var found = this.getAvailableMoves(cards[0], cards.length > 1);
+                            if (found.length > 0 && cards[0].rank != 13) {
+                                available = found;
+                                break;
+                            }
                         }
                     }
                 }
