@@ -7,11 +7,11 @@
 * Games:
     * Klondike
     * Spider
+    * Pyramid
 
 ## To Do List
 * Sound effects
 * Games:
-    * Freecell
     * Pyramid
 
 ## What I Learned

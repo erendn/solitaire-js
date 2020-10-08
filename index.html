@@ -4,7 +4,7 @@
   <title>Solitaire</title>
 </head>
 
-<body onload="Solitaire.start()" onresize="Dimension.calculateAll()" oncontextmenu="return false;">
+<body onload="Solitaire.start()" onresize="Dimension.calculateAll(Solitaire.getGameType())" oncontextmenu="return false;">
   <link rel="stylesheet" href="style.css">
   <canvas id="screen"></canvas>
   <script src="src/main/data-structures/Vector2.js"></script>
@@ -21,6 +21,7 @@
   <script src="src/main/data-structures/Stack.js"></script>
   <script src="src/main/games/Klondike.js"></script>
   <script src="src/main/games/Spider.js"></script>
+  <script src="src/main/games/Freecell.js"></script>
 </body>
 
 </html>

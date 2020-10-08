@@ -112,7 +112,7 @@ class Spider extends GameWorld {
             }
         }
         // Checks if the game is over
-        if (this.deck.size() == 0 && !this.piles.some(stack => stack.size() > 0)) {
+        if (this.deck.size() == 0 && this.piles.every(stack => stack.size() == 0)) {
             this.gameOver = true;
         }
         if (Mouse.clicked) {
@@ -124,7 +124,7 @@ class Spider extends GameWorld {
                         if (Utils.pointInRectangle(Mouse.position, this.piles[i].get(j).position, DIMENSIONS.CARD.width, DIMENSIONS.CARD.height) && this.piles[i].get(j).revealed) {
                             var chosen = this.piles[i].slice(j);
                             if (this.isValidSet(chosen)) {
-                                var available = this.getAvailableMoves(chosen[0], chosen.length > 1);
+                                var available = this.getAvailableMoves(chosen[0]);
                                 if (available.length > 0) {
                                     this.moveCards(chosen.reverse(), available[0]);
                                 }
@@ -196,6 +196,7 @@ class Spider extends GameWorld {
     }
 
     update() {
+        // Updating positions of all stacks on the ground
         for (var i = 0; i < this.foundations.length; i++) {
             this.foundations[i].position = new Vector2((i + 1) * DIMENSIONS.STACK_OFFSET.width + DIMENSIONS.CARD.width * i, DIMENSIONS.STACK_OFFSET.height);
         }
@@ -215,7 +216,7 @@ class Spider extends GameWorld {
                     if (this.piles[i].get(j).revealed) {
                         cards = this.piles[i].slice(j);
                         if (this.isValidSet(cards)) {
-                            var found = this.getAvailableMoves(cards[0], cards.length > 1);
+                            var found = this.getAvailableMoves(cards[0]);
                             if (found.length > 0 && cards[0].rank != 13) {
                                 available = found;
                                 break;
@@ -251,7 +252,7 @@ class Spider extends GameWorld {
 
     isValidSet(cards) {
         for (var i = 0; i < cards.length - 1; i++) {
-            if (cards[i].rank != cards[i + 1].rank + 1)
+            if (cards[i].getColor() != cards[i + 1].getColor() && cards[i].rank != cards[i + 1].rank + 1)
                 return false;
         }
         return true;

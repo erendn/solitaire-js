@@ -39,11 +39,21 @@ Game.prototype.newGame = function (type) {
     } else if (type == GAMES.SPIDER) {
         Solitaire.gameWorld = new Spider();
     } else if (type == GAMES.FREECELL) {
-
+        Solitaire.gameWorld = new Freecell();
     } else if (type == GAMES.PYRAMID) {
 
     }
     Dimension.calculateAll(type);
+}
+
+Game.prototype.getGameType = function () {
+    if (Solitaire.gameWorld instanceof Klondike)
+        return GAMES.KLONDIKE;
+    else if (Solitaire.gameWorld instanceof Spider)
+        return GAMES.SPIDER;
+    else if (Solitaire.gameWorld instanceof Freecell)
+        return GAMES.FREECELL;
+    return null;
 }
 
 Game.prototype.mainLoop = function () {
