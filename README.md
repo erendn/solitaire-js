@@ -25,3 +25,4 @@
 ![screenshot](readme-images/screenshot-1.png "Menu")
 ![screenshot](readme-images/screenshot-2.png "Klondike")
 ![screenshot](readme-images/screenshot-3.png "Spider")
+![screenshot](readme-images/screenshot-4.png "Freecell")

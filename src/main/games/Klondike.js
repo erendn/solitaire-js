@@ -87,7 +87,7 @@ class Klondike extends GameWorld {
             }
             for (var j = 0; j < this.piles[i].size(); j++) {
                 if (j < this.piles[i].size() - 1) {
-                    //this.piles[i].get(j).revealed = false;
+                    this.piles[i].get(j).revealed = false;
                 }
             }
         }
