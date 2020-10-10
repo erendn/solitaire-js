@@ -41,7 +41,7 @@ Game.prototype.newGame = function (type) {
     } else if (type == GAMES.FREECELL) {
         Solitaire.gameWorld = new Freecell();
     } else if (type == GAMES.PYRAMID) {
-
+        Solitaire.gameWorld = new Pyramid();
     }
     Dimension.calculateAll(type);
 }
@@ -53,6 +53,8 @@ Game.prototype.getGameType = function () {
         return GAMES.SPIDER;
     else if (Solitaire.gameWorld instanceof Freecell)
         return GAMES.FREECELL;
+    else if (Solitaire.gameWorld instanceof Pyramid)
+        return GAMES.PYRAMID;
     return null;
 }
 

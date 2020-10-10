@@ -2,6 +2,7 @@ function Card(suit, rank) {
     this.suit = suit;
     this.rank = rank;
     this.revealed = true;
+    this.highlighted = false;
     this.moving = false;
     this.stack = null;
     this.position = null;

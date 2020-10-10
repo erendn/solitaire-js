@@ -41,13 +41,22 @@ class GameWorld {
                 Canvas.drawImage(SPRITES[this.stacksOnGround[i].groundMark], this.stacksOnGround[i].position, DIMENSIONS.CARD.width, DIMENSIONS.CARD.height);
             }
             var position = { ...this.stacksOnGround[i].position };
-            for (var j = 0; j < this.stacksOnGround[i].size(); j++) {
+            for (var j = 0; j < this.stacksOnGround[i].size(true); j++) {
                 var card = this.stacksOnGround[i].get(j);
-                if (!card.moving) {
-                    card.position = { ...position };
+                if (card != null && !card.moving) {
+                    if (this.stacksOnGround[i] instanceof PyramidStack) {
+                        var index_level = this.stacksOnGround[i].indexAndLevelOf(card);
+                        var minIndexInLevel = Math.floor(index_level.level * (index_level.level + 1) / 2);
+                        var maxIndexInLevel = minIndexInLevel + index_level.level;
+                        var diff = index_level.index - (minIndexInLevel + maxIndexInLevel) / 2;
+                        card.position = new Vector2(position.x + (diff - 0.5) * (DIMENSIONS.CARD.width + DIMENSIONS.CARD_OFFSET.width), position.y + index_level.level * DIMENSIONS.CARD.height / 2);
+                    } else
+                        card.position = { ...position };
                     Canvas.drawImage(SPRITES[card.getSpriteName()], card.position, DIMENSIONS.CARD.width, DIMENSIONS.CARD.height);
+                    if (card.highlighted)
+                        Canvas.drawImage(SPRITES['highlight'], card.position, DIMENSIONS.CARD.width, DIMENSIONS.CARD.height, 0.3);
                 }
-                if (!this.stacksOnGround[i].stacked)
+                if (this.stacksOnGround[i] instanceof Stack && !this.stacksOnGround[i].stacked)
                     position.y += card.revealed ? 200 / (3.5 * (this.stacksOnGround[i].size() / 14 + 1)) : DIMENSIONS.CARD_OFFSET.height;
             }
         }
@@ -85,11 +94,22 @@ class GameWorld {
     moveCards(cards, destination, reveal = null, unreveal = null) {
         var move = new GameNode();
         move.cardsMoved = cards;
-        move.movedFrom = cards[0].stack;
+        if (cards.some(element => element.stack instanceof PyramidStack)) {
+            move.movedFrom = [];
+            for (var i = 0; i < cards.length; i++) {
+                if (cards[i].stack instanceof PyramidStack) {
+                    move.movedFrom.push([cards[i].stack, cards[i].stack.indexAndLevelOf(cards[i]).index])
+                } else {
+                    move.movedFrom.push(cards[i].stack);
+                }
+            }
+        } else {
+            move.movedFrom = cards[0].stack;
+        }
         move.movedTo = destination;
         if (reveal != null)
             move.cardsRevealed = reveal;
-        else if (move.movedFrom.size() > cards.length && !move.movedFrom.get(move.movedFrom.size() - cards.length - 1).revealed)
+        else if (move.movedFrom instanceof Stack && move.movedFrom.size() > cards.length && !move.movedFrom.get(move.movedFrom.size() - cards.length - 1).revealed)
             move.cardsRevealed = [move.movedFrom.get(move.movedFrom.size() - cards.length - 1)];
         if (unreveal != null)
             move.cardsUnrevealed = unreveal;

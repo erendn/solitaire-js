@@ -16,6 +16,7 @@ let SETTINGS = {
     BACKGROUND_COLOR: 'DARK_GREEN'
 }
 
+// If 'loading' is less than 'maxLoading', the game has not been loaded yet
 var loading = 0;
 var maxLoading = 0;
 
@@ -23,12 +24,13 @@ let SPRITES = {}
 let FONTS = {}
 
 function loadAssets() {
-    // LOADING SAMPLES
+    // Loading sound samples
 
-    // LOADING SPRITES
+    // Loading sprites
     SPRITES['card-back'] = loadSprite('card-back');
     SPRITES['frame'] = loadSprite('frame');
     SPRITES['frame-empty'] = loadSprite('frame-empty');
+    SPRITES['highlight'] = loadSprite('highlight');
     for (suit in SUITS) {
         for (var i = 1; i <= 13; i++) {
             SPRITES[`${suit}-${i}`] = loadSprite(`${suit.toLowerCase()}-${i}`);
