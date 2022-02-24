@@ -18,7 +18,7 @@
 * Canvas in HTML
 * JavaScript
 
-## [Play](https://erendo.github.io/solitaire-js/)
+## [Play](https://erendn.github.io/solitaire-js/)
 
 ## Screenshots
 ![screenshot](readme-images/screenshot-1.png "Menu")
